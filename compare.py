@@ -66,18 +66,26 @@ def write_csv_report(comparison_data, identifier_a='a', identifier_b='b'):
         for dataset_id, metrics in comparison_data.items():
             metric_type = 'total-dataset-investigations'
             a_value, b_value, difference, same = get_metrics(metrics, metric_type)
+            if a_value == 0 and b_value == 0:
+                continue
             csv_writer.writerow([dataset_id, metric_type, a_value, b_value, difference, same])
 
             metric_type = 'unique-dataset-investigations'
             a_value, b_value, difference, same = get_metrics(metrics, metric_type)
+            if a_value == 0 and b_value == 0:
+                continue
             csv_writer.writerow([dataset_id, metric_type, a_value, b_value, difference, same])
 
             metric_type = 'total-dataset-requests'
             a_value, b_value, difference, same = get_metrics(metrics, metric_type)
+            if a_value == 0 and b_value == 0:
+                continue
             csv_writer.writerow([dataset_id, metric_type, a_value, b_value, difference, same])
 
             metric_type = 'unique-dataset-requests'
             a_value, b_value, difference, same = get_metrics(metrics, metric_type)
+            if a_value == 0 and b_value == 0:
+                continue
             csv_writer.writerow([dataset_id, metric_type, a_value, b_value, difference, same])
 
             # for metric_type in metrics[identifier_a]:
