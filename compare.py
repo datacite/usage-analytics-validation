@@ -85,4 +85,4 @@ def generate_comparison(report_a, report_b):
     #             print(f"    Difference: {a_value - b_value}")
 
 if __name__ == '__main__':
-    generate_comparison('7898f875-dabe-4ec8-a857-7f81fd30c242.json', 'da-80l49bsf-2023-07-01-2023-07-18-1.json')
+    generate_comparison('7898f875-dabe-4ec8-a857-7f81fd30c242.json', 'da-80l49bsf-2023-07-01-2023-07-31-1.json')
