@@ -36,18 +36,67 @@ def write_csv_report(comparison_data, identifier_a='a', identifier_b='b'):
         header = ["DOI", "Metric Type", "A Value", "B Value", "Difference", "Same?"]
         csv_writer.writerow(header)
 
+        def get_value(metrics, metric_type):
+            if identifier_a not in metrics:
+                a_value = 0
+            else:
+                a_value = metrics[identifier_a].get(metric_type, 0)
+
+            if identifier_b not in metrics:
+                b_value = 0
+            else:
+                b_value = metrics[identifier_b].get(metric_type, 0)
+
+            return (a_value, b_value)
+
+        def get_metrics(metrics, metric_type):
+            a_value, b_value = get_value(metrics, metric_type)
+
+            difference = a_value - b_value
+
+            if difference == 0:
+                same = True
+            else:
+                same = False
+
+            return (a_value, b_value, difference, same)
+
+
         # Write comparison data
         for dataset_id, metrics in comparison_data.items():
-            if identifier_a in metrics and identifier_b in metrics:
-                for metric_type in metrics[identifier_a]:
-                    a_value = metrics[identifier_a][metric_type]
-                    b_value = metrics[identifier_b].get(metric_type, 0)  # Use 0 if metric not in a
-                    difference = a_value - b_value
-                    if difference == 0:
-                        same = True
-                    else:
-                        same = False
-                    csv_writer.writerow([dataset_id, metric_type, a_value, b_value, difference, same])
+            metric_type = 'total-dataset-investigations'
+            a_value, b_value, difference, same = get_metrics(metrics, metric_type)
+            csv_writer.writerow([dataset_id, metric_type, a_value, b_value, difference, same])
+
+            metric_type = 'unique-dataset-investigations'
+            a_value, b_value, difference, same = get_metrics(metrics, metric_type)
+            csv_writer.writerow([dataset_id, metric_type, a_value, b_value, difference, same])
+
+            metric_type = 'total-dataset-requests'
+            a_value, b_value, difference, same = get_metrics(metrics, metric_type)
+            csv_writer.writerow([dataset_id, metric_type, a_value, b_value, difference, same])
+
+            metric_type = 'unique-dataset-requests'
+            a_value, b_value, difference, same = get_metrics(metrics, metric_type)
+            csv_writer.writerow([dataset_id, metric_type, a_value, b_value, difference, same])
+
+            # for metric_type in metrics[identifier_a]:
+            #     if identifier_a not in metrics:
+            #         a_value = 0
+            #     else:
+            #         a_value = metrics[identifier_a].get(metric_type, 0)
+
+            #     if identifier_b not in metrics:
+            #         b_value = 0
+            #     else:
+            #         b_value = metrics[identifier_b].get(metric_type, 0)
+
+            #     difference = a_value - b_value
+            #     if difference == 0:
+            #         same = True
+            #     else:
+            #         same = False
+
 
 def read_report_datasets(report_file):
     report_json = ''
